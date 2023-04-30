@@ -53,16 +53,27 @@ void TPQueue<T>::push(const T& value) {
         tail->next = create(value);
         tail->next->prev = tail;
         tail = tail->next;
-    } else {
-        Item* item = create(value);
+    } else if (head == tail) {
+        tail->prev = create(value);
+        head = tail->prev;
+        head->next = tail;
+    } else if (tail->data.prior < value.prior){
         Item* temp = tail;
         while (temp != head && value.prior > temp->data.prior) {
             temp = temp->prev;
         }
-        temp->next->prev = item;
-        item->next = temp->next;
-        temp->next = item;
-        item->prev = temp;
+        if (temp->data.prior >= value.prior) {
+            Item* item = create(value);
+            temp->next->prev = item;
+            item->next = temp->next;
+            temp->next = item;
+            item->prev = temp;
+        } else if (temp == head && temp->data.prior < value.prior) {
+            head->prev = create(value);
+            head = head->prev;
+            head->next = temp;
+            temp->prev = head;
+        }
     }
 }
 
