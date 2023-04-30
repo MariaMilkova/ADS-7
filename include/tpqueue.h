@@ -25,7 +25,7 @@ class TPQueue {
 
 template<typename T>
 typename TPQueue<T>::Item* TPQueue<T>::create(const T& value) {
-    Item* item = new item;
+    Item* item = new Item;
     item->data = value;
     item->next = item->prev = nullptr;
     return item;
@@ -47,7 +47,7 @@ T TPQueue<T>::pop() {
 template<typename T>
 void TPQueue<T>::push(const T& value) {
     if (head == nullptr) {
-        head = create(vlaue);
+        head = create(value);
         tail = head;
     } else if (tail->data.prior >= value.prior) {
         tail->next = create(value);
